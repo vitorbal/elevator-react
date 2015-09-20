@@ -1,0 +1,14 @@
+.elevators {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+.elevator {
+    flex: 1;
+    border-right: 1px solid #e3e3e3;
+}
+
+.elevator-current-floor {
+    background-color: #F1F1F1;
+}

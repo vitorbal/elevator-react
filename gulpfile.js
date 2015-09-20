@@ -5,6 +5,7 @@ var react = require('gulp-react');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var connect = require('gulp-connect');
+var webserver = require('gulp-webserver');
 
 function getFiles(dir){
     return fs.readdirSync(dir);
@@ -43,6 +44,14 @@ gulp.task('connect', function() {
             return [proxy];
         }
     });
+});
+
+gulp.task('webserver', function() {
+    gulp.src('dist')
+        .pipe(webserver({
+            port: 8000,
+            livereload: true,
+    }));
 });
 
 gulp.task('watch', function() {

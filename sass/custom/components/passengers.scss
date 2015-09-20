@@ -1,0 +1,11 @@
+.passenger {
+    display: inline-block;
+    margin-bottom: 3px;
+    width: 2px;
+    height: 2px;
+    background-color: #000;
+
+    & + .passenger {
+        margin-left: 3px;
+    }
+}
