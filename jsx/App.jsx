@@ -29,7 +29,11 @@ var App = React.createClass({
     },
 
     callElevatorFromFloor: function(floor) {
-        var randomFloor = Math.floor(Math.random() * NUM_FLOORS) + 1;
+        var randomFloor = floor;
+        while (randomFloor === floor) {
+            randomFloor = Math.floor(Math.random() * NUM_FLOORS) + 1;
+        }
+
         AppStore.callElevatorFromFloor(floor, randomFloor);
     },
 

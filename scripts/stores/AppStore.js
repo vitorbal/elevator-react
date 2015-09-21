@@ -35,7 +35,7 @@ var AppStore = {
         var downwardFloors = [];
 
         jobs.forEach(function(floor) {
-            if (floor > _elevators[i].floor) {
+            if (floor >= _elevators[i].floor) {
                 upwardFloors.push(floor);
             } else {
                 downwardFloors.push(floor);
@@ -133,14 +133,21 @@ var AppStore = {
             var distance = 999;
             if (elevator.jobs.length === 0) {
                 distance = Math.abs(elevator.floor - floor);
-            } else if (elevator.jobs[0] > elevator.floor && floor > elevator.floor) {
-                distance = Math.abs(elevator.floor - floor);
-            } else if (elevator.jobs[0] < elevator.floor && floor < elevator.floor) {
-                distance = Math.abs(elevator.floor - floor);
+            } else if (elevator.jobs[0] >= elevator.floor) {
+                if (floor >= elevator.floor) {
+                    distance = Math.abs(elevator.floor - floor);
+                } else {
+                    distance = (Math.abs(elevator.floor - elevator.jobs[0]) * 2) + Math.abs(elevator.floor - floor);
+                }
+            } else if (elevator.jobs[0] < elevator.floor) {
+                if (floor < elevator.floor) {
+                    distance = Math.abs(elevator.floor - floor);
+                } else {
+                    distance = (Math.abs(elevator.floor - elevator.jobs[0]) * 2) + Math.abs(elevator.floor - floor);
+                }
             }
             distances.push(distance);
         });
-
         var i = distances.indexOf(Math.min.apply(Math, distances));
         AppStore.assignFloorToElevator(i, floor);
     },
@@ -150,11 +157,7 @@ var AppStore = {
             return;
         }
 
-        if (_elevators[i].jobs[0] === _elevators[i].floor) {
-            AppStore.openElevator(i);
-        } else {
-            AppStore.moveElevatorToFloor(i, _elevators[i].jobs[0]);
-        }
+        AppStore.moveElevatorToFloor(i, _elevators[i].jobs[0]);
     },
 
     removeCurrentFloorFromElevatorJobs: function(i) {
